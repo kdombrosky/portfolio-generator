@@ -27,12 +27,28 @@ const promptProject = portfolioData => {
         {
             type: 'input',
             name: 'name',
-            message: 'What is the name of your project?'
+            message: 'What is the name of your project? (Required)',
+            validate: projNameInput => {
+                if (projNameInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a project name.');
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'description',
-            message: 'Provide a description of the project (Required): '
+            message: 'Provide a description of the project (Required): ',
+            validate: descriptionInput => {
+                if (descriptionInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a project description.');
+                    return false;
+                }
+            }
         },
         {
             type: 'checkbox',
@@ -43,7 +59,15 @@ const promptProject = portfolioData => {
         {
             type: 'input',
             name: 'link',
-            message: 'Enter the GitHub link to your project. (Required)'
+            message: 'Enter the GitHub link to your project. (Required)',
+            validate: linkInput => {
+                if (linkInput) {
+                    return true;
+                } else {
+                    console.log('Please provide the link to your project.');
+                    return false;
+                }
+            }
         },
         {
             type: 'confirm',
@@ -99,15 +123,7 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'about',
-            message: 'Provide some information about yourself:',
-            validate: aboutInput => {
-                if (aboutInput) {
-                    return true;
-                } else {
-                    console.log('Please enter some details about yourself.');
-                    return false;
-                }
-            }
+            message: 'Provide some information about yourself:'
         }
     ]);
 };
