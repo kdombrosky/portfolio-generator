@@ -1,18 +1,14 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
-// const generatePage = require('./src/page-template');
+const fs = require('fs');
+const generatePage = require('./src/page-template');
 
 // const pageHTML = generatePage(name, github);
 
-// fs.writeFile('./index.html', pageHTML, err => {
-//     if (err) throw err;
 
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-// });
 
 // Use questions object array to return project answers object
 const promptProject = portfolioData => {
-    // If there's no 'projects' array property, create one
+    // If there's no 'projects' array property, create one to store 1 or multiple projects
     if (!portfolioData.projects) {
         portfolioData.projects = [];
     }
@@ -84,12 +80,14 @@ const promptProject = portfolioData => {
     ]).then(projectData => {
         portfolioData.projects.push(projectData);
         if (projectData.confirmAddProject) {
+            // run the project sequence again to add another object to portfolioData[]
             return promptProject(portfolioData);
         } else {
             return portfolioData;
         }
     });
 };
+
 
 // Use question object array from inquirer to get profile answers object
 const promptUser = () => { 
@@ -145,8 +143,11 @@ const promptUser = () => {
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
-        console.log(portfolioData);
+        const pageHTML = generatePage(portfolioData);
+
+        fs.writeFile('./index.html', pageHTML, err => {
+            if (err) throw new Error(err);
+
+            console.log('Page created! Check out index.html in this directory to see it!');
+        });
     });
-
-
-
