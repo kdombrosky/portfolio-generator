@@ -10,7 +10,7 @@ const inquirer = require('inquirer');
 //     console.log('Portfolio complete! Check out index.html to see the output!');
 // });
 
-// use questions object array to return project answers object
+// Use questions object array to return project answers object
 const promptProject = portfolioData => {
     // If there's no 'projects' array property, create one
     if (!portfolioData.projects) {
@@ -91,7 +91,7 @@ const promptProject = portfolioData => {
     });
 };
 
-// use question object array from inquirer to get profile answers object
+// Use question object array from inquirer to get profile answers object
 const promptUser = () => { 
     return inquirer.prompt([
         {
@@ -120,17 +120,33 @@ const promptUser = () => {
                 }
             }
         },
-        {
+        {   // Store true/false into confirmAbout depending on the user's answer
+            type: 'confirm',
+            name: 'confirmAbout',
+            message: 'Would you like to enter some information about yourself for an "About" section?',
+            default: true
+        },
+        {   // Use the confirmAbout boolean value to determine whether to display the message or not
             type: 'input',
             name: 'about',
-            message: 'Provide some information about yourself:'
+            message: 'Provide some information about yourself:',
+            when: ({confirmAbout}) => {
+                if(confirmAbout) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     ]);
 };
 
-// use promises to chain the functions together using .then() method
+// Use promises to chain the functions together using .then() method
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
         console.log(portfolioData);
     });
+
+
+
